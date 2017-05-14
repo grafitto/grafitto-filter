@@ -110,7 +110,7 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
       */
       filtered: {
         type: Array,
-        computed: '_computeFiltered(items, where, like)'
+        computed: '_computeFiltered(items, where, like, caseSensitive)'
       },
       /**
       * Custom filter function, if this is provided then 'where' and 'like' are ignored
@@ -139,9 +139,9 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
      * @param {boolean} capital This is a flag to determine whether filter should be case sensitive or not.
      * @return array} Filter results.
      */
-    _computeFiltered: function(items, where, like) { 
+    _computeFiltered: function(items, where, like, caseSensitive) { 
       var regex = null;
-      if(this.capital){ 
+      if(caseSensitive){ 
         regex = new RegExp(like, "i");
       }else{
         regex = new RegExp(like);
@@ -149,9 +149,9 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
 
       var filtered = [];
       if(this.f){
-        filtered = items.filter((item) => { return this.f(item) });
+        filtered = items.filter(function(item){ return this.f(item) });
       }else{
-        filtered = items.filter(item => { return regex.test(item[where]); });
+        filtered = items.filter(function(item){ return regex.test(item[where]); });
       }
       this._onFilter();
       this._populateUserTemplate(filtered);
