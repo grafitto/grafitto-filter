@@ -33,27 +33,27 @@ Data:
 Example using `dom-repeat`:
 
 ```html
-    <grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
-      <template>
-        <template is="dom-repeat" items=[[vitu]] as="item">
-          <div>{{item.name}}</div>
-        </template>
-      </template>
-    </grafitto-filter>
+<grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+  <template>
+    <template is="dom-repeat" items=[[vitu]] as="item">
+      <div>{{item.name}}</div>
+    </template>
+  </template>
+</grafitto-filter>
 ```
 
 Example using `iron-list`:
 
 ```html
-  <grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+<grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+  <template>
+    <iron-list items=[[vitu]] as="item">
       <template>
-        <iron-list items=[[vitu]] as="item">
-          <template>
-           <div>{{item.name}}</div>
-          </template>
-        </iron-list>
+        <div>{{item.name}}</div>
       </template>
-    </grafitto-filter>
+    </iron-list>
+  </template>
+</grafitto-filter>
 ```
 Just incase you are wondering, `vitu` means `items` in Swahili :-)
 @demo
