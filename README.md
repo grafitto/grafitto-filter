@@ -1,6 +1,47 @@
-# seed-element
+# grafitto-filter
 
-An element providing a starting point for your own reusable Polymer elements.
+`grafitto-filter` is an element providing a solution for filtering a list of items before displaying them.
+This component also supports use of custom filter functions using the `f` property. 
+
+Data:
+```json
+[
+  {
+    "name":"John",
+    "home": "Thika"
+  },
+  {
+    "name": "Doe",
+    "home": "Nairobi"
+  }
+]
+```
+Example using `dom-repeat`:
+
+```html
+    <grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+      <template>
+        <template is="dom-repeat" items=[[vitu]] as="item">
+          <div>{{item.name}}</div>
+        </template>
+      </template>
+    </grafitto-filter>
+```
+
+Example using `iron-list`:
+
+```html
+  <grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+      <template>
+        <iron-list items=[[vitu]] as="item">
+          <template>
+           <div>{{item.name}}</div>
+          </template>
+        </iron-list>
+      </template>
+    </grafitto-filter>
+```
+Just incase you are wondering, `vitu` means `items` in Swahili :-)
 
 
 ## Dependencies
@@ -28,13 +69,13 @@ And you can run it via:
     polyserve
 
 Once running, you can preview your element at
-`http://localhost:8080/components/seed-element/`, where `seed-element` is the name of the directory containing it.
+`http://localhost:8080/components/grafitto-filter/`, where `grafitto-filter` is the name of the directory containing it.
 
 
 ## Testing Your Element
 
 Simply navigate to the `/test` directory of your element to run its tests. If
-you are using Polyserve: `http://localhost:8080/components/seed-element/test/`
+you are using Polyserve: `http://localhost:8080/components/grafitto-filter/test/`
 
 ### web-component-tester
 
