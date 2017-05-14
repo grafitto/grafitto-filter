@@ -1,0 +1,213 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`grafitto-filter` is an element providing a solution for filtering a list of items before displaying them.
+This component also supports use of custom filter functions using the `f` property. 
+
+Data:
+```json
+[
+  {
+    "name":"John",
+    "home": "Thika"
+  },
+  {
+    "name": "Doe",
+    "home": "Nairobi"
+  }
+]
+```
+Example using `dom-repeat`:
+
+```html
+    <grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+      <template>
+        <template is="dom-repeat" items=[[vitu]] as="item">
+          <div>{{item.name}}</div>
+        </template>
+      </template>
+    </grafitto-filter>
+```
+
+Example using `iron-list`:
+
+```html
+  <grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+      <template>
+        <iron-list items=[[vitu]] as="item">
+          <template>
+           <div>{{item.name}}</div>
+          </template>
+        </iron-list>
+      </template>
+    </grafitto-filter>
+```
+Just incase you are wondering, `vitu` means `items` in Swahili :-)
+@demo
+-->
+<dom-module id="grafitto-filter">
+      <template>
+        <div id="dom">
+          <content id="template" select="template" ></content>
+        </div>
+      </template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'grafitto-filter',
+
+    properties: {
+      /**
+      * These are the items to be filtered
+      */
+      items: {
+        type: Array,
+        value: []
+      },
+      /**
+      * Filter string which can be a regular expression
+      */
+      like: {
+        type: String,
+        value: ""
+      },
+      /**
+      * The filter-by field of your items array of objects
+      */
+      where: {
+        type: String,
+        value: 'name'
+      },
+      /**
+      * Enable case sensitivity
+      */
+      capital:{
+        type: Boolean,
+        value: false,
+        notify: true
+      },
+      /**
+      * How the filtered items will be passed to the light-DOM
+      */
+      as: {
+        type: String,
+        value: 'items'
+      },
+      /**
+      * Filtered items
+      */
+      filtered: {
+        type: Array,
+        computed: '_computeFiltered(items, where, like)'
+      },
+      /**
+      * Custom filter function, if this is provided then 'where' and 'like' are ignored
+      */
+      f: {
+        type: Object,
+        notify: true
+      },
+    },
+    behaviors: [
+      Polymer.Templatizer
+    ],
+    // Element Lifecycle
+
+    ready: function() {
+      // `ready` is called after all elements have been configured, but
+      // propagates bottom-up. This element's children are ready, but parents
+      // are not.
+      //
+      // This is the point where you should make modifications to the DOM (when
+      // necessary), or kick off any processes the element wants to perform.
+    },
+
+    attached: function() {
+      // `attached` fires once the element and its parents have been inserted
+      // into a document.
+      //
+      // This is a good place to perform any work related to your element's
+      // visual state or active behavior (measuring sizes, beginning animations,
+      // loading resources, etc).
+    },
+
+    detached: function() {
+      // The analog to `attached`, `detached` fires when the element has been
+      // removed from a document.
+      //
+      // Use this to clean up anything you did in `attached`.
+    },
+    /**
+    * Filters by like
+    * @param {string} like
+    */
+    filter: function(like){
+       this.like = like;
+     },
+    /**
+     * This filters the items provided
+     *
+     * @param {array} items These are the items to be filtered.
+     * @param {string} where The filterby string.
+     * @param {string} like The filter string.
+     * @param {boolean} capital This is a flag to determine whether filter should be case sensitive or not.
+     * @return array} Filter results.
+     */
+    _computeFiltered: function(items, where, like) { 
+      var regex = null;
+      if(this.capital){ 
+        regex = new RegExp(like, "i");
+      }else{
+        regex = new RegExp(like);
+      }
+
+      var filtered = [];
+      if(this.f){
+        filtered = items.filter((item) => { return this.f(item) });
+      }else{
+        filtered = items.filter(item => { return regex.test(item[where]); });
+      }
+      this._onFilter();
+      this._populateUserTemplate(filtered);
+      return filtered;
+    },
+    /**
+    * Populates user template, only template dom-repeate is supported for now
+    *@param {array} filtered the filtered array to be displayed
+    */
+    _populateUserTemplate: function(filtered){
+      this._userTemplate = Polymer.dom(this.$.template).getDistributedNodes()[0];
+      if(this._userTemplate){
+        this.templatize(this._userTemplate);
+        var clone = this.stamp();
+        clone[this.as] = filtered;
+        Polymer.dom(this.$.dom).innerHTML = "";
+        Polymer.dom(this.$.dom).appendChild(clone.root);
+      }else{
+        console.warn('grafitto-filter requires a template to be provided in light-dom');
+      }
+    },
+     /**
+     * The `filter` event is fired whenever filtering is done before populating the dom.
+     *
+     * @event filter
+     * @detail {{sound: String}}
+     */
+    _onFilter: function(){
+      this.fire("filter");
+    }
+  });
+
+</script>
