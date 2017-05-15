@@ -6,15 +6,15 @@
 bower install --save grafitto/grafitto-filter
 ```
 Data:
-```json
+```javascript
 [
   {
-    "name":"John",
-    "home": "Thika"
+    name:"John",
+    home: "Thika"
   },
   {
-    "name": "Doe",
-    "home": "Nairobi"
+    name: "Doe",
+    home: "Nairobi"
   }
 ]
 ```
