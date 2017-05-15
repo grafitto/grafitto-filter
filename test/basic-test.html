@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body>
 
     <!-- You can use the document as a place to set up your fixtures. -->
-    <grafitto-filter id="tested" items='[{"name": "Kevin Nderitu", "home":"Thika"}]' where='name' like="Kevin Nderitu">
+    <grafitto-filter id="tested" items='[{"name": "Kevin Nderitu", "home":"Thika"}]' where='name' like="Kevin Nderitu" case-sensitive> 
       <template>
         <iron-list items=[[items]] as="item">
           <template>
@@ -43,7 +43,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(myEl.like, "Kevin Nderitu");
         });
         test('defines the "filtered" property', function(){
-          assert.equal(myEl.filtered[0].name, "Kevin Nderitu")
+          assert.equal(myEl.filtered[0].name, "Kevin Nderitu");
+        });
+        test('defines the "caseSensitive" property', function(){
+          assert.equal(myEl.caseSensitive, true);
         });
 /**
         test('says hello', function() {
