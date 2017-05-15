@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body>
     <h3>grafitto-filter Demo</h3>
     <input placeholder="Filter by name" id="like" onkeyup="_search()">
-    <grafitto-filter where="name" like="" as="vitu" >
+    <grafitto-filter where="name" like="" as="vitu" case-sensitive>
       <template>
         <iron-list items=[[vitu]] as="item">
           <template>
