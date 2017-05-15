@@ -45,7 +45,7 @@ Example using `dom-repeat`:
 Example using `iron-list`:
 
 ```html
-<grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+<grafitto-filter items=[[data]] where="name" like="Doe" as="vitu">
   <template>
     <iron-list items=[[vitu]] as="item">
       <template>
@@ -56,6 +56,50 @@ Example using `iron-list`:
 </grafitto-filter>
 ```
 Just incase you are wondering, `vitu` means `items` in Swahili :-)
+
+`grafitto-filter` also supports complex objects. consider:
+
+var `complexObj`
+```json
+
+[
+  {
+    name: {
+      first: "Thomas",
+      second: "Kimtu"
+    },
+    home: "Thika"
+  },
+  {
+    name: {
+      first: "John",
+      second: "Doe"
+    },
+    home: "Othaya"
+  },
+  {
+    name: {
+      first: "Clement",
+      second: "Wainaina"
+    },
+    home: "Nakuru"
+  }
+]
+``` 
+
+Here is an example using the `complexObj` object above
+
+```html
+<grafitto-filter items=[[complexObj]] where="name.first" like="tho" as="vitu">
+  <template>
+    <iron-list items=[[vitu]] as="item">
+      <template>
+        <div>{{item.name.first}} {{item.name.second}}, {{item.home}}</div>
+      </template>
+    </iron-list>
+  </template>
+</grafitto-filter>
+```
 @demo
 -->
 <dom-module id="grafitto-filter">
@@ -95,7 +139,7 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
         value: 'name'
       },
       /**
-      * Enable case sensitivity
+      * Enable case sensitivity when filtering
       */
       caseSensitive:{
         type: Boolean,
@@ -103,7 +147,7 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
         reflectToAttribute: true
       },
       /**
-      * How the filtered items will be passed to the light-DOM
+      * How the filtered items will be passed to the light-DOM. Default `items`
       */
       as: {
         type: String,
@@ -148,6 +192,7 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
      * @return array} Filter results.
      */
     _computeFiltered: function(items, where, like, caseSensitive) { 
+
       var regex = null;
       if(caseSensitive){ 
         regex = new RegExp(like);
@@ -157,9 +202,24 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
 
       var filtered = [];
       if(this.f){
-        filtered = items.filter(function(item){ return this.f(item) });
+        filtered = items.filter(function(item){ 
+          return this.f(item) 
+        });
       }else{
-        filtered = items.filter(function(item){ return regex.test(item[where]); });
+        //Save a reference to this object
+        var decompose = this._decomposeWhere.bind(this);
+        //Filter by `like`
+        filtered = items.filter(function(item){ 
+            //Decompose where incase it is represented in . notation for complex objects
+            var decomposed = decompose(where, item);
+
+            //Check if the items specified are defined
+            if(typeof decomposed == 'undefined'){
+              //Do what I know best
+              console.warn("grafitto-filter was unable to find a property in '"+ where + "'");
+            }
+            return regex.test(decomposed); 
+        });
       }
       return filtered;
     },
@@ -179,11 +239,16 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
         console.warn('grafitto-filter requires a template to be provided in light-dom');
       }
     },
+    /**
+    * This decomposes `where` property to object attributes using . notation
+    */
+    _decomposeWhere: function(where, item){
+      return where.split(".").reduce(function(a, b){ return a && a[b]; }, item);
+    },
      /**
      * The `filter` event is fired whenever filtering is done before populating the dom.
      *
      * @event filter
-     * @detail {{sound: String}}
      */
     _onFilter: function(){
       this.fire("filter");

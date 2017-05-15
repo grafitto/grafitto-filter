@@ -45,6 +45,48 @@ Example using `iron-list`:
 ```
 Just incase you are wondering, `vitu` means `items` in Swahili :-)
 
+`grafitto-filter` also supports complex objects. consider:
+
+var `complexObj`
+```json
+[
+    {
+      name: {
+        first: "Thomas",
+        second: "Kimtu"
+      },
+      home: "Thika"
+    },
+    {
+      name: {
+        first: "John",
+        second: "Doe"
+      },
+      home: "Othaya"
+    },
+    {
+      name: {
+        first: "Clement",
+        second: "Wainaina"
+      },
+      home: "Nakuru"
+    }
+]
+``` 
+
+Here is an example using the `complexObj` object above
+
+```html
+<grafitto-filter items=[[complexObj]] where="name.first" like="tho" as="vitu">
+  <template>
+    <iron-list items=[[vitu]] as="item">
+      <template>
+        <div>{{item.name.first}} {{item.name.second}}, {{item.home}}</div>
+      </template>
+    </iron-list>
+  </template>
+</grafitto-filter>
+```
 
 ## Dependencies
 
