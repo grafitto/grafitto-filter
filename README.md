@@ -48,7 +48,7 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
 `grafitto-filter` also supports complex objects. consider:
 
 var `complexObj`
-```json
+```javascript
 [
     {
       name: {
