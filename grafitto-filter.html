@@ -114,7 +114,8 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
       */
       filtered: {
         type: Array,
-        computed: '_computeFiltered(items, where, like, caseSensitive)'
+        computed: '_computeFiltered(items, where, like, caseSensitive)',
+        observer: '_onFilter'
       },
       /**
       * Custom filter function, if this is provided then 'where' and 'like' are ignored
@@ -124,6 +125,9 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
         notify: true
       },
     },
+    observers:[
+      '_populateUserTemplate(filtered)'
+    ],
     behaviors: [
       Polymer.Templatizer
     ],
@@ -157,8 +161,6 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
       }else{
         filtered = items.filter(function(item){ return regex.test(item[where]); });
       }
-      this._onFilter();
-      this._populateUserTemplate(filtered);
       return filtered;
     },
     /**
