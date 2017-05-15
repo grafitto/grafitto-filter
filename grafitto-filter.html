@@ -150,9 +150,9 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
     _computeFiltered: function(items, where, like, caseSensitive) { 
       var regex = null;
       if(caseSensitive){ 
-        regex = new RegExp(like, "i");
-      }else{
         regex = new RegExp(like);
+      }else{
+        regex = new RegExp(like, "i");
       }
 
       var filtered = [];
