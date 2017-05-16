@@ -87,7 +87,47 @@ Here is an example using the `complexObj` object above
   </template>
 </grafitto-filter>
 ```
+You can also use your custom function to filter the items provided.
+The function receives a single `item` of the items provided and should return a `boolean` 
 
+```html
+<dom-module id="your-element">
+  <template>
+    <grafitto-filter items=[[data]] f="filterFunc" as="vitu">
+      <template>
+        <iron-list items=[[vitu]] as="item">
+          <template>
+            <div>{{item.name}}, {{item.home}}</div>
+          </template>
+        </iron-list>
+      </template>
+    </grafitto-filter>
+    <script>
+      Polymer({
+        is: "your-element",
+        properties: {
+          data: {
+            type: Array,
+            value: [
+                    {
+                      "name":"John",
+                      "home": "Thika"
+                    },
+                    {
+                      "name": "Doe",
+                      "home": "Nairobi"
+                    }
+                  ]
+          }
+        },
+        filterFunc: function(item){
+          return item.name == "Doe";
+        }
+      })
+    </script>
+  </template>
+</dom-module>
+```
 ## Dependencies
 
 Element dependencies are managed via [Bower](http://bower.io/). You can
