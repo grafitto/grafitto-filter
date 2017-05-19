@@ -18,8 +18,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../../iron-list/iron-list.html">
   </head>
   <body>
-    <h3>grafitto-filter Demo</h3>
+    <h3>grafitto-filter DEMO</h3>
     <input placeholder="Filter by name" id="like" onkeyup="_search()">
+    <input type="checkbox" id="i">Case sensitive</input>
     <grafitto-filter where="name" like="" as="vitu">
       <template>
         <iron-list items=[[vitu]] as="item">
@@ -1004,8 +1005,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var f = document.querySelector("grafitto-filter");
     f.items = items;
 
+    //Set case sensitivity event handler
+    document.getElementById("i").addEventListener("change", function(){
+      f.caseSensitive = document.getElementById("i").checked;
+    });
+
+    //Search
     function _search(){
       var like = document.getElementById("like").value;
+      if(document.getElementById("i").checked){
+        f.caseSensitive = true;
+      }else{
+        f.caseSensitive = false;
+      }
       f.like = like;
     }
   </script>
