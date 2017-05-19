@@ -4,6 +4,10 @@
 
 `grafitto-filter` is a Polymer compatible reusable web element providing a solution for filtering a list of items before displaying them. This component also supports use of custom filter functions using the `f` property. 
 
+```bash
+bower install --save grafitto/grafitto-filter
+```
+
 <!---
 ```
 <custom-element-demo>
@@ -56,10 +60,6 @@
       f.like = like;
     }
   </script>
-```
-
-```bash
-bower install --save grafitto/grafitto-filter
 ```
 Data:
 ```javascript
