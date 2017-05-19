@@ -218,10 +218,11 @@ The function receives a single `item` of the items provided and should return a 
     ],
     /**
     * Filters by like
-    * @param {string} like
+    * Recommended when f function is used
     */
-    filter: function(like){
-       this.like = like;
+    filter: function(){
+      //This forces the items to get filtered thus _computeFiltered doing its job :-)
+      this.where = "";
      },
     /**
      * This filters the items provided
@@ -243,9 +244,8 @@ The function receives a single `item` of the items provided and should return a 
 
       var filtered = [];
       if(this.f){
-        filtered = items.filter(function(item){ 
-          return this.f(item) 
-        });
+        var customFunction = this.f.bind(this);
+        filtered = items.filter(customFunction);
       }else{
         //Save a reference to this object
         var decompose = this._decomposeWhere.bind(this);
