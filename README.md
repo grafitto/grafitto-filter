@@ -4,25 +4,107 @@
 
 `grafitto-filter` is a Polymer compatible reusable web element providing a solution for filtering a list of items before displaying them. This component also supports use of custom filter functions using the `f` property. 
 
-<!--
+<!---
 ```
 <custom-element-demo>
   <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="grafitto-filter.html">
     <link rel="import" href="../iron-list/iron-list.html">
+    <style>
+    	#like{
+     	  padding: 5px; 
+          width: 95%;
+          border:none;
+          border-bottom: 1px solid #555;
+      	}
+    </style>
     <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
 -->
 ```html
-<grafitto-filter items='[{name:"John",home: "Thika"},{name: "Doe",home: "Nairobi"}]' where="name" like="Doe" as="vitu">
-  <template>
-    <template is="dom-repeat" items=[[vitu]] as="item">
-      <div>{{item.name}}</div>
-    </template>
-  </template>
-</grafitto-filter>
+<h3>GRAFITTO-FILTER DEMO</h3>
+    <input placeholder="Filter by name" id="like" onkeyup="_search()">
+    <grafitto-filter where="name" like="" as="vitu">
+      <template>
+        <iron-list items=[[vitu]] as="item">
+          <template>
+            <div style="padding-top: 10px; color: #555">{{item.name}}, {{item.code}}</div>
+          </template>
+        </iron-list>
+      </template>
+    </grafitto-filter>
+  </body>
+  <script>
+    var items = [
+                    {
+                    "code": "+971",
+                    "name": "United Arab Emirates"
+                    },
+                    {
+                    "code": "+44",
+                    "name": "United Kingdom"
+                    },
+                    {
+                    "code": "+1",
+                    "name": "United States"
+                    },
+                    {
+                    "code": "+598",
+                    "name": "Uruguay"
+                    },
+                    {
+                    "code": "+998",
+                    "name": "Uzbekistan"
+                    },
+                    {
+                    "code": "+678",
+                    "name": "Vanuatu"
+                    },
+                    {
+                    "code": "+58",
+                    "name": "Venezuela"
+                    },
+                    {
+                    "code": "+84",
+                    "name": "Vietnam"
+                    },
+                    {
+                    "code": "+1 808",
+                    "name": "Wake Island"
+                    },
+                    {
+                    "code": "+681",
+                    "name": "Wallis and Futuna"
+                    },
+                    {
+                    "code": "+967",
+                    "name": "Yemen"
+                    },
+                    {
+                    "code": "+260",
+                    "name": "Zambia"
+                    },
+                    {
+                    "code": "+255",
+                    "name": "Zanzibar"
+                    },
+                    {
+                    "code": "+263",
+                    "name": "Zimbabwe"
+                    }
+                ];
+    
+    var f = document.querySelector("grafitto-filter");
+    f.items = items;
+
+    function _search(){
+      var like = document.getElementById("like").value;
+      f.like = like;
+    }
+  </script>
 ```
 
 ```bash
