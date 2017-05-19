@@ -1013,11 +1013,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     //Search
     function _search(){
       var like = document.getElementById("like").value;
-      if(document.getElementById("i").checked){
-        f.caseSensitive = true;
-      }else{
-        f.caseSensitive = false;
-      }
+      f.caseSensitive = document.getElementById("i").checked;
+      
       f.like = like;
     }
   </script>
