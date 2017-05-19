@@ -39,34 +39,13 @@
   </body>
   <script>
     var items = [
-                    {
-                    "code": "+678",
-                    "name": "Vanuatu"
-                    },
-                    {
-                    "code": "+58",
-                    "name": "Venezuela"
-                    },
-                    {
-                    "code": "+84",
-                    "name": "Vietnam"
-                    },
-                    {
-                    "code": "+1 808",
-                    "name": "Wake Island"
-                    },
-                    {
-                    "code": "+681",
-                    "name": "Wallis and Futuna"
-                    },
-                    {
-                    "code": "+967",
-                    "name": "Yemen"
-                    },
-                    {
-                    "code": "+260",
-                    "name": "Zambia"
-                    }
+                    {"code": "+678","name": "Vanuatu"},
+                    {"code": "+58","name": "Venezuela"},
+                    {"code": "+84","name": "Vietnam"},
+                    {"code": "+1 808","name": "Wake Island"},
+                    {"code": "+681","name": "Wallis and Futuna"},
+                    {"code": "+967","name": "Yemen"},
+                    {"code": "+260","name": "Zambia"}
                 ];
     
     var f = document.querySelector("grafitto-filter");
