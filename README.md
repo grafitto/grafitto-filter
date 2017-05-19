@@ -1,6 +1,29 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/owner/my-element)
+
 # grafitto-filter
 
 `grafitto-filter` is a Polymer compatible reusable web element providing a solution for filtering a list of items before displaying them. This component also supports use of custom filter functions using the `f` property. 
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="grafitto-filter.html">
+    <link rel="import" href="../iron-list/iron-list.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<grafitto-filter items='[{name:"John",home: "Thika"},{name: "Doe",home: "Nairobi"}]' where="name" like="Doe" as="vitu">
+  <template>
+    <template is="dom-repeat" items=[[vitu]] as="item">
+      <div>{{item.name}}</div>
+    </template>
+  </template>
+</grafitto-filter>
+```
 
 ```bash
 bower install --save grafitto/grafitto-filter
