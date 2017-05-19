@@ -16,20 +16,81 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../grafitto-filter.html">
     <link rel="import" href="../../iron-list/iron-list.html">
+    <link rel="import" href="../../paper-input/paper-input.html">
+    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="../../paper-item/paper-item.html">
+    <style>
+      #like{
+        width: 100%;
+      }
+      paper-checkbox.styled {
+        width: 92%;
+        align-self: center;
+        border: 1px solid #ddd;
+        padding: 8px 16px;
+        --paper-checkbox-checked-color: #0f0;
+        --paper-checkbox-checked-ink-color: #0f0;
+        --paper-checkbox-unchecked-color: white;
+        --paper-checkbox-unchecked-ink-color: black;
+        --paper-checkbox-label-color: black;
+        --paper-checkbox-label-spacing: 0;
+        --paper-checkbox-margin: 8px 16px 8px 0;
+        --paper-checkbox-vertical-align: top;
+      }
+
+      paper-checkbox .subtitle {
+        display: block;
+        font-size: 0.8em;
+        margin-top: 2px;
+        max-width: 150px;
+      }
+      .small{
+        font-size: 0.7em;
+        color: darkgrey;
+      }
+      .wrapper{
+        width: 33%;
+        margin-left: 33%;
+      }
+      @media only screen and (max-width: 768px) {
+          .wrapper{
+              width: 100%;
+              margin: 0px;
+              padding: 5px;
+          }
+          #like{
+            width: 99%
+          }
+      }
+    </style>
   </head>
   <body>
-    <h3>grafitto-filter DEMO</h3>
-    <input placeholder="Filter by name" id="like" onkeyup="_search()">
-    <input type="checkbox" id="i">Case sensitive</input>
-    <grafitto-filter where="name" like="" as="vitu">
-      <template>
-        <iron-list items=[[vitu]] as="item">
+    <div class="wrapper">
+      <h3>grafitto-filter DEMO</h3>
+      <!--<input placeholder="Filter by name" id="like" onkeyup="_search()"> -->
+      <paper-input label="Filter" id="like"></paper-input>
+        <paper-checkbox class="styled" id="i" raised>
+          Case
+          <span class="subtitle">
+            Enable case sensitivity
+          </span>
+        </paper-checkbox>
+        <grafitto-filter where="name" like="" as="vitu">
           <template>
-            <div style="padding-top: 10px; color: #555">{{item.name}}, {{item.code}}</div>
+            <iron-list items=[[vitu]] as="item">
+              <template>
+                <paper-item>
+                  <paper-item-body two-line>
+                    <div>{{item.name}}</div>
+                    <div class="small" secondary>{{item.code}}</div>
+                  </paper-item-body>
+                  <iron-icon icon="warning"></iron-icon>
+                </paper-item>
+              </template>
+            </iron-list>
           </template>
-        </iron-list>
-      </template>
-    </grafitto-filter>
+        </grafitto-filter>
+    </div>
   </body>
   <script>
     var complexObj = [
@@ -1006,16 +1067,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     f.items = items;
 
     //Set case sensitivity event handler
-    document.getElementById("i").addEventListener("change", function(){
-      f.caseSensitive = document.getElementById("i").checked;
-    });
+    document.getElementById("i").addEventListener("checked-changed", function(e){
+      f.caseSensitive = e.detail.value;
+    })
 
-    //Search
-    function _search(){
-      var like = document.getElementById("like").value;
-      f.caseSensitive = document.getElementById("i").checked;
-      
-      f.like = like;
-    }
+    //Listen for value changed
+    document.getElementById("like").addEventListener("value-changed", function(from, to){
+      f.like = from.detail.value;
+    });
   </script>
 </html>
