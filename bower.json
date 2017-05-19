@@ -24,6 +24,9 @@
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "*",
-    "iron-list": "^1.4.6"
+    "iron-list": "^1.4.6",
+    "paper-input": "^2.0.0",
+    "paper-item": "^2.0.0",
+    "paper-checkbox": "^2.0.0"
   }
 }
