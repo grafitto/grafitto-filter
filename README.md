@@ -40,26 +40,6 @@
   <script>
     var items = [
                     {
-                    "code": "+971",
-                    "name": "United Arab Emirates"
-                    },
-                    {
-                    "code": "+44",
-                    "name": "United Kingdom"
-                    },
-                    {
-                    "code": "+1",
-                    "name": "United States"
-                    },
-                    {
-                    "code": "+598",
-                    "name": "Uruguay"
-                    },
-                    {
-                    "code": "+998",
-                    "name": "Uzbekistan"
-                    },
-                    {
                     "code": "+678",
                     "name": "Vanuatu"
                     },
@@ -86,14 +66,6 @@
                     {
                     "code": "+260",
                     "name": "Zambia"
-                    },
-                    {
-                    "code": "+255",
-                    "name": "Zanzibar"
-                    },
-                    {
-                    "code": "+263",
-                    "name": "Zimbabwe"
                     }
                 ];
     
