@@ -266,5 +266,4 @@ The function receives a single `item` of the items provided and should return a 
 </dom-module>
 ```
 ### Rule of thumb   
-`like` is taken as a regular expression so remember to escape any characters that you don't want interpreted
-by the regular expression engine.
+`like` is taken as a regular expression so remember to escape any characters that you don't want interpreted by the regular expression engine.
