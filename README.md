@@ -268,14 +268,3 @@ The function receives a single `item` of the items provided and should return a 
 ### Rule of thumb   
 `like` is taken as a regular expression so remember to escape any characters that you don't want interpreted
 by the regular expression engine.
-
-## Dependencies
-
-Element dependencies are managed via [Bower](http://bower.io/). You can
-install that via:
-
-    npm install -g bower
-
-Then, go ahead and download the element's dependencies:
-
-    bower install
