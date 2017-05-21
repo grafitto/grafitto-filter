@@ -4,6 +4,7 @@
 
 `grafitto-filter` is a Polymer compatible reusable web element providing a solution for filtering a list of items before displaying them. This component also supports use of custom filter functions using the `f` property. 
 
+Install:   
 ```bash
 bower install --save grafitto/grafitto-filter
 ```
@@ -15,6 +16,9 @@ bower install --save grafitto/grafitto-filter
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="grafitto-filter.html">
     <link rel="import" href="../iron-list/iron-list.html">
+    <link rel="import" href="../paper-input/paper-input.html">
+    <link rel="import" href="../paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="../paper-item/paper-item.html">
     <style>
     	#like{
      	  padding: 5px; 
@@ -22,6 +26,45 @@ bower install --save grafitto/grafitto-filter
           border:none;
           border-bottom: 1px solid #555;
       	}
+        paper-checkbox.styled {
+          width: 92%;
+          align-self: center;
+          border: 1px solid #ddd;
+          padding: 8px 16px;
+          --paper-checkbox-checked-color: #0f0;
+          --paper-checkbox-checked-ink-color: #0f0;
+          --paper-checkbox-unchecked-color: white;
+          --paper-checkbox-unchecked-ink-color: black;
+          --paper-checkbox-label-color: black;
+          --paper-checkbox-label-spacing: 0;
+          --paper-checkbox-margin: 8px 16px 8px 0;
+          --paper-checkbox-vertical-align: top;
+        }
+
+        paper-checkbox .subtitle {
+          display: block;
+          font-size: 0.8em;
+          margin-top: 2px;
+          max-width: 150px;
+        }
+        .small{
+          font-size: 0.7em;
+          color: darkgrey;
+        }
+        .wrapper{
+          width: 33%;
+          margin-left: 33%;
+        }
+        @media only screen and (max-width: 768px) {
+            .wrapper{
+                width: 100%;
+                margin: 0px;
+                padding: 5px;
+            }
+            #like{
+              width: 99%
+            }
+        }
     </style>
     <next-code-block></next-code-block>
   </template>
@@ -30,16 +73,27 @@ bower install --save grafitto/grafitto-filter
 -->
 ```html
 <h3>GRAFITTO-FILTER DEMO</h3>
-    <input placeholder="Filter by name" id="like" onkeyup="_search()">
-    <grafitto-filter where="name" like="" as="vitu">
-      <template>
-        <iron-list items=[[vitu]] as="item">
+    <paper-input label="Filter" id="like"></paper-input>
+        <paper-checkbox class="styled" id="i" raised>
+          Case
+          <span class="subtitle">
+            Enable case sensitivity
+          </span>
+        </paper-checkbox>
+        <grafitto-filter where="name" like="" as="vitu">
           <template>
-            <div style="padding-top: 10px; color: #555">{{item.name}}, {{item.code}}</div>
+            <iron-list items=[[vitu]] as="item">
+              <template>
+                <paper-item>
+                  <paper-item-body two-line>
+                    <div>{{item.name}}</div>
+                    <div class="small" secondary>{{item.code}}</div>
+                  </paper-item-body>
+                </paper-item>
+              </template>
+            </iron-list>
           </template>
-        </iron-list>
-      </template>
-    </grafitto-filter>
+        </grafitto-filter>
   </body>
   <script>
     var items = [
@@ -61,9 +115,27 @@ bower install --save grafitto/grafitto-filter
     }
   </script>
 ```
-Data:
+`array`:
 ```javascript
-[
+var array = ["one", "two", "three", "four", "five", "six", "seven"];
+```
+```html
+<grafitto-filter item=[[array]] like="o" as="vitu">
+  <template>
+    <iron-list items=[[vitu]] as="item">
+      <template>
+        <div>{{item}}</div>
+      </template>
+    </iron-list>
+  </template> </grafitto-filter>
+```
+_Note_: When a simple array is provided, the `where` attribute is ignored and filtering done on the array items themselves.
+Also an array of numbers behave like an array of strings when filtering.
+
+### Arrays of Objects   
+`data`:
+```javascript
+var data = [
   {
     name:"John",
     home: "Thika"
@@ -89,7 +161,7 @@ Example using `dom-repeat`:
 Example using `iron-list`:
 
 ```html
-<grafitto-filter items='[[data]]' where="name" like="Doe" as="vitu">
+<grafitto-filter items=[[data]] where="name" like="Doe" as="vitu">
   <template>
     <iron-list items=[[vitu]] as="item">
       <template>
@@ -103,30 +175,30 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
 
 `grafitto-filter` also supports complex objects. consider:
 
-var `complexObj`
+
 ```javascript
-[
-    {
-      name: {
-        first: "Thomas",
-        second: "Kimtu"
-      },
-      home: "Thika"
+var complexObj = [
+  {
+    name: {
+      first: "Thomas",
+      second: "Kimtu"
     },
-    {
-      name: {
-        first: "John",
-        second: "Doe"
-      },
-      home: "Othaya"
+    home: "Thika"
+  },
+  {
+    name: {
+      first: "John",
+      second: "Doe"
     },
-    {
-      name: {
-        first: "Clement",
-        second: "Wainaina"
-      },
-      home: "Nakuru"
-    }
+    home: "Othaya"
+  },
+  {
+    name: {
+      first: "Clement",
+      second: "Wainaina"
+    },
+    home: "Nakuru"
+  }
 ]
 ``` 
 
@@ -143,13 +215,14 @@ Here is an example using the `complexObj` object above
   </template>
 </grafitto-filter>
 ```
+
 You can also use your custom function to filter the items provided.
 The function receives a single `item` of the items provided and should return a `boolean` 
 
 ```html
 <dom-module id="your-element">
   <template>
-    <grafitto-filter items=[[data]] f="filterFunc" as="vitu">
+    <grafitto-filter items=[[data]] id="filter" as="vitu">
       <template>
         <iron-list items=[[vitu]] as="item">
           <template>
@@ -176,9 +249,12 @@ The function receives a single `item` of the items provided and should return a 
                   ]
           }
         },
-        filterFunc: function(item){
-          return item.name == "Doe";
+        ready: function(){
+          this.$.filter.f = function(item){
+            return item.name == "Doe";
+          };
         }
+       //Then you can call filter() function to trigger filter
       })
     </script>
   </template>
