@@ -1,4 +1,5 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/grafitto/grafitto-filter)
+[![Published on github pages](https://img.shields.io/badge/github.io-demo-blue.svg?style=flat-square)](https://grafitto.github.io/grafitto-filter/components/grafitto-filter/)
 
 # grafitto-filter
 
@@ -9,6 +10,7 @@ Install:
 bower install --save grafitto/grafitto-filter
 ```
 
+View the API and Demo [Here](https://grafitto.github.io/grafitto-filter/components/grafitto-filter)
 <!---
 ```
 <custom-element-demo>
