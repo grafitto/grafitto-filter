@@ -265,6 +265,10 @@ The function receives a single `item` of the items provided and should return a 
   </template>
 </dom-module>
 ```
+### Rule of thumb   
+`like` is taken as a regular expression so remember to escape any characters that you don't want interpreted
+by the regular expression engine.
+
 ## Dependencies
 
 Element dependencies are managed via [Bower](http://bower.io/). You can
