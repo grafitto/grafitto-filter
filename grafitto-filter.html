@@ -17,16 +17,35 @@ Install:
 ```bash
 bower install --save grafitto/grafitto-filter
 ```
-Data:
-```json
-[
+
+`array`:
+```javascript
+var array = ["one", "two", "three", "four", "five", "six", "seven"];
+```
+```html
+<grafitto-filter item=[[array]] like="o" as="vitu">
+  <template>
+    <iron-list items=[[vitu]] as="item">
+      <template>
+        <div>{{item}}</div>
+      </template>
+    </iron-list>
+  </template> </grafitto-filter>
+```
+_Note_: When a simple array is provided, the `where` attribute is ignored and filtering done on the array items themselves.
+Also an array of numbers behave like an array of strings when filtering.
+
+### Arrays of Objects   
+`data`:
+```javascript
+var data = [
   {
-    "name":"John",
-    "home": "Thika"
+    name:"John",
+    home: "Thika"
   },
   {
-    "name": "Doe",
-    "home": "Nairobi"
+    name: "Doe",
+    home: "Nairobi"
   }
 ]
 ```
@@ -59,9 +78,9 @@ Just incase you are wondering, `vitu` means `items` in Swahili :-)
 
 `grafitto-filter` also supports complex objects. consider:
 
-var `complexObj`
+
 ```javascript
-[
+var complexObj = [
   {
     name: {
       first: "Thomas",
@@ -106,7 +125,7 @@ The function receives a single `item` of the items provided and should return a 
 ```html
 <dom-module id="your-element">
   <template>
-    <grafitto-filter items=[[data]] f="filterFunc" as="vitu">
+    <grafitto-filter items=[[data]] id="filter" as="vitu">
       <template>
         <iron-list items=[[vitu]] as="item">
           <template>
@@ -133,9 +152,12 @@ The function receives a single `item` of the items provided and should return a 
                   ]
           }
         },
-        filterFunc: function(item){
-          return item.name == "Doe";
+        ready: function(){
+          this.$.filter.f = function(item){
+            return item.name == "Doe";
+          };
         }
+       //Then you can call filter() function to trigger filter
       })
     </script>
   </template>
@@ -217,8 +239,7 @@ The function receives a single `item` of the items provided and should return a 
       Polymer.Templatizer
     ],
     /**
-    * Filters by like
-    * Recommended when f function is used
+    * Filters the items using the f function provided. Recommended when f function is provided
     */
     filter: function(){
       //This forces _computeFiltered function to do its job :-)
@@ -251,15 +272,28 @@ The function receives a single `item` of the items provided and should return a 
         var decompose = this._decomposeWhere.bind(this);
         //Filter by `like`
         filtered = items.filter(function(item){ 
-            //Decompose where incase it is represented in . notation for complex objects
-            var decomposed = decompose(where, item);
 
-            //Check if the items specified are defined
-            if(typeof decomposed == 'undefined'){
-              //Do what I know best
-              console.warn("grafitto-filter was unable to find a property in '"+ where + "'");
+            //This is when a complex object is provided
+            if(typeof item == "object"){
+                //Decompose where incase it is represented in . notation for complex objects
+                var decomposed = decompose(where, item);
+                //Check if the items specified are defined
+                if(typeof decomposed == 'undefined'){
+                  //Do what I know best
+                  console.warn("grafitto-filter was unable to find a property in '"+ where + "'");
+                }
+                return regex.test(decomposed); 
             }
-            return regex.test(decomposed); 
+
+            //When a simple object of strings is provided
+            if(typeof item == "string"){
+              return regex.test(item);
+            }
+            //When a simple object of numbers is provided
+            if(typeof item == "number"){
+              return regex.test(item.toString());
+            }
+            
         });
       }
       return filtered;
