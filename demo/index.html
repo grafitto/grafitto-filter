@@ -84,7 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <div>{{item.name}}</div>
                     <div class="small" secondary>{{item.code}}</div>
                   </paper-item-body>
-                  <iron-icon icon="warning"></iron-icon>
                 </paper-item>
               </template>
             </iron-list>
@@ -1064,7 +1063,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 ];
     
     var f = document.querySelector("grafitto-filter");
-    f.items = items;
+    f.items = items;//["one", "two", "three", "four", "five"];
 
     //Set case sensitivity event handler
     document.getElementById("i").addEventListener("checked-changed", function(e){
