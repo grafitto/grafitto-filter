@@ -109,10 +109,15 @@ bower install --save grafitto/grafitto-filter
     var f = document.querySelector("grafitto-filter");
     f.items = items;
 
-    function _search(){
-      var like = document.getElementById("like").value;
-      f.like = like;
-    }
+      //Set case sensitivity event handler
+    document.getElementById("i").addEventListener("checked-changed", function(e){
+      f.caseSensitive = e.detail.value;
+    })
+
+    //Listen for value changed
+    document.getElementById("like").addEventListener("value-changed", function(from, to){
+      f.like = from.detail.value;
+    });
   </script>
 ```
 `array`:
