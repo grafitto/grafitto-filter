@@ -76,6 +76,8 @@ Example using `iron-list`:
 ```
 Just incase you are wondering, `vitu` means `items` in Swahili :-)
 
+_Note_: When a simple array E.g `["one","two","three","four"]` is provided, the `where` attribute is ignored and filtering done on the array items themselves.
+
 `grafitto-filter` also supports complex objects. consider:
 
 
@@ -232,7 +234,7 @@ by the regular expression engine.
       * Custom filter function, if this is provided then 'where' and 'like' are ignored
       */
       f: {
-        type: Object,
+        type: Function,
         notify: true
       },
     },
