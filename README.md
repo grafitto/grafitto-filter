@@ -136,9 +136,6 @@ var array = ["one", "two", "three", "four", "five", "six", "seven"];
     </iron-list>
   </template> </grafitto-filter>
 ```
-_Note_: When a simple array is provided, the `where` attribute is ignored and filtering done on the array items themselves.
-Also an array of numbers behave like an array of strings when filtering.
-
 ### Arrays of Objects   
 `data`:
 ```javascript
@@ -179,6 +176,10 @@ Example using `iron-list`:
 </grafitto-filter>
 ```
 Just incase you are wondering, `vitu` means `items` in Swahili :-)
+
+_Note_: When a simple array E.g `["one","two","three","four"]` is provided, the `where` attribute is ignored and filtering done on the array items themselves.
+Also an array of numbers behave like an array of strings when filtering.
+
 
 `grafitto-filter` also supports complex objects. consider:
 
