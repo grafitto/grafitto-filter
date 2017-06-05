@@ -11,7 +11,7 @@
     "polymer",
     "filter"
   ],
-  "main": "seed-element.html",
+  "main": "grafitto-filter.html",
   "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/grafitto/grafitto-filter/",
   "ignore": [
